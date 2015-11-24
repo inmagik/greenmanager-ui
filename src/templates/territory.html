@@ -1,12 +1,19 @@
+<div class="containing side-open" ng-class="{'side-open' : ui.side}">
 <div class="infotop">
     <nav class="navbar navbar-inverse">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">{{territory.name}}</a>
+        <div class="navbar-header" ng-if="ui.side">
+            <a class="navbar-brand">{{territory.name}}</a>
         </div>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a ng-click="toggleSide()">+&nbsp;&nbsp;</a></li>
+        </ul>
     </nav>    
-    <p>{{territory.description}}</p>
-    <hr>
+    <div class="side-content" ng-if="ui.side">
+        <p>{{territory.description}}</p>
+        <hr>
+    </div>
 </div>
-<div class="fullmap">
-    <leaflet paths="paths" width="100%" height="100%"></leaflet>
+
+<leaflet class="fullmap" ng-class="{faded:ui.fade}" paths="paths"></leaflet>
+
 </div>

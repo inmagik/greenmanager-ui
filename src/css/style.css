@@ -9,14 +9,43 @@ body{
     position: absolute;
     top:45px;
     bottom:0px;
-    width:70%;
+    width:20px;
     background-color: #eee;
+    border-right: solid #bbb 2px;
+    -webkit-transition: width 1s; /* Safari */
+    transition: width 1s;
+    overflow-x:hidden;
+    
 }
 
 .fullmap{
     position: absolute;
     top:45px;
     bottom:0px;
+    left:20px;
+    right: 0px;
+    width : calc(100%-20px);
+    -webkit-transition: left 1s; /* Safari */
+    transition: left 1s, opacity 1s;
+    opacity: 1;
+    
+}
+
+.fullmap.faded{
+    opacity: 0.5;
+}
+
+
+.side-open > .infotop{
+    width:30%;
+    background-color: #eee;
+    border-right: solid #bbb 2px;
+    
+}
+
+.side-open > .fullmap{
     left:30%;
-    width:70%;
+    right: 0px;
+    width: 70%;
+    
 }

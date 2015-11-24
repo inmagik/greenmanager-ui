@@ -9,8 +9,23 @@ function createLatLongs(arr){
 }
 
 function TerritoryCtrl($scope, $stateParams, DataService, leafletData, $timeout){
-    console.log(DataService.territory)
+    
     $scope.paths = {};
+    $scope.ui = { side : true };
+
+    $scope.toggleSide = function(){
+        $scope.ui.side = !$scope.ui.side;
+        $scope.ui.fade = true;
+        $timeout(function(){
+            leafletData.getMap().then(function(map) {
+                map.invalidateSize(true);
+
+            });
+            $scope.ui.fade = false;
+        }, 1000)
+    };
+    
+
     DataService.territory.one($stateParams.territoryId).get()
     .then(function(territory){
         $scope.territory = territory;    
