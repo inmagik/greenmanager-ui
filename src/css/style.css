@@ -1,0 +1,22 @@
+body{
+    padding-top:70px;
+}
+.deepskyblue-text{
+    color: deepskyblue;
+}
+
+.infotop{
+    position: absolute;
+    top:45px;
+    bottom:0px;
+    width:70%;
+    background-color: #eee;
+}
+
+.fullmap{
+    position: absolute;
+    top:45px;
+    bottom:0px;
+    left:30%;
+    width:70%;
+}

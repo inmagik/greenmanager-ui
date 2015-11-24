@@ -4,7 +4,18 @@
 
 angular.module('app.statesconfig', ['ui.router'])
 
-.run(function(){})
+.run(function($rootScope, $state){
+
+    //perform redirects based on login/logout here
+    $rootScope.$on("logoutSuccess", function(){
+        $state.go("app.login");
+    })
+
+    $rootScope.$on("loginSuccess", function(){
+        $state.go("app.home");
+    })
+
+})
 
 .config(function($stateProvider, $urlRouterProvider){
 
@@ -14,15 +25,21 @@ angular.module('app.statesconfig', ['ui.router'])
     .state('app', {
         url: '/app',
         abstract: true,
-        template : '<ui-view></ui-view>',
+        templateUrl : 'templates/base.html',
         //controller : 'RootCtrl'
     })
     .state('app.login', {
         url: '/login',
-        //templateUrl: 'templates/login.html',
-        //controller: 'LoginCtrl',
+        templateUrl: 'templates/login.html',
+        controller: 'LoginCtrl',
         resolve: {
           
+        },
+        data : {
+            permissions : {
+                except : ['logged'],
+                redirectTo : 'app.home'
+            }
         }
     })
     .state('app.account', {
@@ -44,20 +61,31 @@ angular.module('app.statesconfig', ['ui.router'])
     .state('app.home', {
         url: '/home',
         templateUrl: 'templates/home.html',
-        controller: function($scope){
-            
-        },
-        resolve: {
-          
-        },
-        /*
+        controller: 'HomeCtrl',
+        resolve: {},
         data: {
             permissions: {
-                only: ['admin']
+                only: ['logged'],
+                redirectTo : 'app.login'
             }
         },
-        */
+        
     })
+
+    .state('app.territory', {
+        url: '/territory/:territoryId',
+        templateUrl: 'templates/territory.html',
+        controller: 'TerritoryCtrl',
+        resolve: {},
+        data: {
+            permissions: {
+                only: ['logged'],
+                redirectTo : 'app.login'
+            }
+        },
+        
+    })
+
 
     $urlRouterProvider.otherwise(function ($injector) {
         var $state = $injector.get('$state');
