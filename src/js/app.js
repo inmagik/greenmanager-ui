@@ -30,7 +30,9 @@ angular.module(
 })
 
 
-.config(function(){})
+.config(function($logProvider){
+    $logProvider.debugEnabled(false);    
+})
 
 
 

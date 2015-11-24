@@ -1,21 +1,18 @@
 <div class="mapview side-open" ng-class="{'side-open' : ui.side}">
 <div class="infobox">
-    <nav class="navbar navbar-inverse">
-        <div class="navbar-header" ng-if="ui.side">
-            <a class="navbar-brand">{{territory.name}}</a>
-        </div>
-        <ul class="nav navbar-nav navbar-right">
-            <li><a ng-click="toggleSide()">+&nbsp;&nbsp;</a></li>
-        </ul>
-    </nav>    
-    <div class="side-content" ng-if="ui.side">
+    <div class="side-title">
+        <a class="btn btn-primary pull-right" ng-click="toggleSide()"><i class="fa fa-arrows-h"></i></a>
+    </div>
+    <div class="side-content" ng-if="ui.side && !ui.fade">
+        <h2>{{territory.name}}</h2>
         <p>{{territory.description}}</p>
+        <button class="btn btn-danger" ng-click="toggleEdit()">Edit</button>
         <hr>
     </div>
 </div>
 
 <div class="mapbox">
-    <leaflet class="fullmap" ng-class="{faded:ui.fade}" paths="paths"></leaflet>
+    <leaflet class="fullmap" ng-class="{faded:ui.fade}" paths="paths" controls='controls'></leaflet>
 
     </div>
 </div>
