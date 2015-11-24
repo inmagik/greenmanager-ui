@@ -1,5 +1,5 @@
-<div class="containing side-open" ng-class="{'side-open' : ui.side}">
-<div class="infotop">
+<div class="mapview side-open" ng-class="{'side-open' : ui.side}">
+<div class="infobox">
     <nav class="navbar navbar-inverse">
         <div class="navbar-header" ng-if="ui.side">
             <a class="navbar-brand">{{territory.name}}</a>
@@ -14,6 +14,8 @@
     </div>
 </div>
 
-<leaflet class="fullmap" ng-class="{faded:ui.fade}" paths="paths"></leaflet>
+<div class="mapbox">
+    <leaflet class="fullmap" ng-class="{faded:ui.fade}" paths="paths"></leaflet>
 
+    </div>
 </div>

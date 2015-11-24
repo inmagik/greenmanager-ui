@@ -5,18 +5,9 @@ body{
     color: deepskyblue;
 }
 
-.infotop{
-    position: absolute;
-    top:45px;
-    bottom:0px;
-    width:20px;
-    background-color: #eee;
-    border-right: solid #bbb 2px;
-    -webkit-transition: width 1s; /* Safari */
-    transition: width 1s;
-    overflow-x:hidden;
-    
-}
+/*
+
+
 
 .fullmap{
     position: absolute;
@@ -25,7 +16,6 @@ body{
     left:20px;
     right: 0px;
     width : calc(100%-20px);
-    -webkit-transition: left 1s; /* Safari */
     transition: left 1s, opacity 1s;
     opacity: 1;
     
@@ -36,16 +26,55 @@ body{
 }
 
 
-.side-open > .infotop{
-    width:30%;
+
+
+*/
+
+.mapview {
+    display: flex; 
+    flex-direction: row;
+    position:absolute;
+    top:46px;
+    bottom:0px;
+    left:0px;
+    right:0px;
+    background-color: red;
+}
+
+
+.infobox{
+    flex:0;
+    flex-grow: 0.001;
+    transition: all 1s;
     background-color: #eee;
     border-right: solid #bbb 2px;
+    min-width:30px;
+}
+
+.mapbox{
+    flex:3;
+    transition: width 1s;
+    background-color: crimson;
+    position:relative;
+    
+}
+
+.side-open > .infobox{
+    flex:1;
+    flex-grow:1;
+    min-width:200px;
     
 }
 
 .side-open > .fullmap{
-    left:30%;
-    right: 0px;
-    width: 70%;
     
+    
+}
+
+.fullmap{
+    position:absolute;
+    top:0px;
+    bottom:0px;
+    left:0px;
+    right:0px;
 }
