@@ -1,0 +1,21 @@
+<form novalidate name="form">
+    <div class="form-group">
+        <label>Name</label>
+        <input  class="form-control"  type="text" ng-model="territory.name" name="name" required>
+    </div>
+    <div class="form-group">
+        <label>Description</label>
+        <textarea class="form-control" rows="3" ng-model="territory.description" name="description"></textarea>
+    </div>
+    <div>
+        <button class="btn btn-danger" ng-click="saveTerritory()" ng-disabled="form.$invalid || !territory.geom">Save</button>
+        <button class="btn btn-default" ui-sref="app.territory({idTerritory:territory.id})">Cancel</button>
+        <!--<div ng-if="!form.$pristine">Changed</div>-->
+    </div>
+    
+    <div class="alert alert-warning" ng-if="!territory.geom">
+      <h4>Warning!</h4>
+      <p>Cannot save territory without geometry!</p>
+    </div>
+
+</form>

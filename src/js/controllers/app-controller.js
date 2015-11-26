@@ -6,6 +6,7 @@ angular.module('app')
 
 function AppCtrl($scope, $auth, $rootScope, $state){
     
+    
     $scope.logged = $auth.isAuthenticated();
     $scope.$on("loginSuccess", function(){
         $scope.logged = true;

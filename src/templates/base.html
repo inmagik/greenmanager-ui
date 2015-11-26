@@ -7,11 +7,13 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#"><span class="deepskyblue-text">Green</span> Manager</a>
+      <a class="navbar-brand" ui-sref="app.home"><span class="deepskyblue-text">Green</span> Manager</a>
     </div>
-
     
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav" ui-view="navbar">
+        
+      </ul>
       <!--
       <ul class="nav navbar-nav">
         <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
@@ -45,4 +47,4 @@
   </div>
 </nav>
 
-<div ui-view></div>
+<div ui-view="main"></div>

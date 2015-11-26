@@ -15,6 +15,7 @@ angular.module('app.statesconfig', ['ui.router'])
         $state.go("app.home");
     })
 
+
 })
 
 .config(function($stateProvider, $urlRouterProvider){
@@ -30,8 +31,12 @@ angular.module('app.statesconfig', ['ui.router'])
     })
     .state('app.login', {
         url: '/login',
-        templateUrl: 'templates/login.html',
-        controller: 'LoginCtrl',
+        views : {
+            main : {
+                templateUrl: 'templates/login.html',
+                controller: 'LoginCtrl',        
+            }
+        },
         resolve: {
           
         },
@@ -42,6 +47,7 @@ angular.module('app.statesconfig', ['ui.router'])
             }
         }
     })
+    /*
     .state('app.account', {
         url: '/account',
         templateUrl: 'templates/account.html',
@@ -57,11 +63,16 @@ angular.module('app.statesconfig', ['ui.router'])
 
         },
     })
+    */
     
     .state('app.home', {
         url: '/home',
-        templateUrl: 'templates/home.html',
-        controller: 'HomeCtrl',
+        views : {
+            main : {
+                templateUrl: 'templates/home.html',
+                controller: 'HomeCtrl',        
+            }
+        },
         resolve: {},
         data: {
             permissions: {
@@ -69,25 +80,98 @@ angular.module('app.statesconfig', ['ui.router'])
                 redirectTo : 'app.login'
             }
         },
-        
     })
 
     .state('app.territory', {
+        sticky: true,
         url: '/territory/:territoryId',
-        templateUrl: 'templates/territory.html',
-        controller: 'TerritoryCtrl',
-        resolve: {},
+        views : {
+            main : {
+                templateUrl: 'templates/territory.html',
+                controller: 'TerritoryCtrl',        
+            },
+            navbar : {
+                templateUrl: 'templates/territory-navbar.html',
+                controller: 'TerritoryNavCtrl'
+            }
+        },
+        resolve: {
+            
+            territory : function(DataService, $stateParams){
+                return DataService.territory.one($stateParams.territoryId).get();
+            },
+            territoryGeo : function(DataService, $stateParams){
+                var url = DataService.getApiUrl('territory-geo', $stateParams.territoryId)
+                return DataService.getGeoFeatures(url)
+            },
+            points : function(DataService, territory){
+               var url = DataService.getApiUrl('pointvegetation-geo')
+                return DataService.getGeoFeatures(url)
+            }
+            
+        },
         data: {
             permissions: {
                 only: ['logged'],
                 redirectTo : 'app.login'
             }
         },
+
+        
         
     })
 
+    .state('app.territory.edit', {
+        url: '/edit',
+        views  :{
+            "territory-side" : {
+                templateUrl: 'templates/territory-edit.html',
+                controller: 'TerritoryEditCtrl',                
+            }
+        },
+        onEnter : function(MapService){
+            MapService.addEditControlForOverlay('territory')
+        },
+        onExit : function(MapService){
+            MapService.removeEditControlForOverlay('territory')
+            
+        }
+    })
 
-    $urlRouterProvider.otherwise(function ($injector) {
+    .state('app.territory.add', {
+        url: '/add',
+        views  :{
+            "territory-side" : {
+                templateUrl: 'templates/territory-add.html',
+                controller: 'TerritoryAddCtrl',                
+            }
+        }
+    })
+    .state('app.territory.edit-point', {
+        url: '/edit-point/:pointId',
+        views  :{
+            "territory-side" : {
+                templateUrl: 'templates/territory-edit-point.html',
+                controller: 'TerritoryEditPointCtrl',                
+            }
+        },
+        resolve : {
+            point : function(DataService, $stateParams){
+                return DataService.pointvegetation.one($stateParams.pointId).get()
+            }
+        },
+        onEnter : function(MapService){
+            MapService.addEditControlForOverlay('points')
+        },
+
+        onExit : function(MapService){
+            MapService.removeEditControlForOverlay('points')
+        }
+    })
+
+
+    
+    $urlRouterProvider.otherwise(function ($injector, $location) {
         var $state = $injector.get('$state');
         $state.go('app.home');
     });

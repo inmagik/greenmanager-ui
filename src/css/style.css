@@ -1,6 +1,11 @@
 body{
     padding-top:70px;
 }
+
+/* angular ui-bootstrap */
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
+
 .deepskyblue-text{
     color: deepskyblue;
 }
@@ -59,19 +64,23 @@ body{
     
 }
 
+.maptoolbar{
+    position: absolute;
+    top:5px;
+    right: 5px;
+    z-index: 10000;
+}
+
 .side-open > .infobox{
     flex:1;
     flex-grow:1;
     min-width:200px;
-    
 }
 
 .side-open > .fullmap{
-    
-    
 }
 
-.fullmap{
+.fullmap {
     position:absolute;
     top:0px;
     bottom:0px;

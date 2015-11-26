@@ -1,18 +1,48 @@
 <div class="mapview side-open" ng-class="{'side-open' : ui.side}">
 <div class="infobox">
     <div class="side-title">
-        <a class="btn btn-primary pull-right" ng-click="toggleSide()"><i class="fa fa-arrows-h"></i></a>
+        <a class="btn btn-primary pull-right" ng-if="!ui.editingTerritory" ng-click="toggleSide()"><i class="fa fa-arrows-h"></i></a>
     </div>
     <div class="side-content" ng-if="ui.side && !ui.fade">
-        <h2>{{territory.name}}</h2>
-        <p>{{territory.description}}</p>
-        <button class="btn btn-danger" ng-click="toggleEdit()">Edit</button>
-        <hr>
+
+        <div ui-view="territory-side"></div>
+
+        <div ng-if="$state.current.name=='app.territory'">
+            <h2>{{territory.name}}</h2>
+            <p>{{territory.description}}</p>
+            <hr>
+        </div>
+        
+
+        
+    
+
     </div>
 </div>
 
+
+<div class="maptoolbar">
+    <div class="btn-group" role="group" aria-label="...">
+    <button type="button" class="btn btn-success navbar-btn" ui-sref="app.territory.add({territoryId:territory.id})">
+        <i class="fa fa-map-marker"></i>
+    </button>
+    <button type="button" class="btn btn-warning navbar-btn">
+        <i class="fa fa-map-marker"></i>
+    </button>
+    <button type="button" class="btn btn-danger navbar-btn">
+        <i class="fa fa-map-marker"></i>
+    </button>
+    <button type="button" class="btn btn-primary navbar-btn">
+        <i class="fa fa-hand-o-up"></i>
+    </button>
+    </div>
+</div>
+
+
+
+
 <div class="mapbox">
-    <leaflet class="fullmap" ng-class="{faded:ui.fade}" paths="paths" controls='controls'></leaflet>
+    <leaflet class="fullmap" layers="layers" ng-class="{faded:ui.fade}" controls='controls'></leaflet>
 
     </div>
 </div>

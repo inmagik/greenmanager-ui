@@ -3,9 +3,10 @@
 
 angular.module(
     'app', 
-    [
+    [   
+        'ct.ui.router.extras',
         'app.networkconfig', 'app.statesconfig', 'app.authconfig','app.permissions', 'http-auth-interceptor',
-        'leaflet-directive'
+        'leaflet-directive', 'ui.bootstrap', 
     ]
 )
 
