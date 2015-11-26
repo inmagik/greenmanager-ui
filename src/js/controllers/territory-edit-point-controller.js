@@ -10,37 +10,28 @@ function TerritoryEditPointCtrl($scope, $state, DataService,leafletData,  MapSer
     $scope.territory = territory;    
     $scope.point = point;
     
-    $scope.savePoint = function(point){
-        DataService.pointvegetation.post(point)
+    $scope.savePoint = function(){
+        $scope.point.save()
         .then(function(savedPoint){
             alert("point saved!")
             $timeout(function(){
-                var geojsonFeature = convertToFeature(savedPoint.plain(), 'geom');
-                $scope.layers.overlays.points.addData(geojsonFeature)
-                fg.removeLayer(newPoint);
+                //var geojsonFeature = MapService.convertToFeature(savedPoint.plain(), 'geom');
+                //$scope.layers.overlays.points.addData(geojsonFeature)
+                //fg.removeLayer(newPoint);
                 $state.go("app.territory", {territoryId:territory.id}, {reload:true})
             })  
 
         })
-    }
+    };
 
-    var saveEdited = function(){
-        var layers =  e.layers.getLayers();
-            layers = _.filter(layers, function(x){
-                return x.feature.properties.layerName == "points"
-            })
-            console.log(100, layers);
-            if(!layers.length) return;
-            _.each(layers, function(l){
-                var elm = DataService.pointvegetation.one(l.feature.id).get()
-                .then(function(pt){
-                    console.error(pt)
-                    var gg = l.toGeoJSON()
-                    pt.geom = gg.geometry;
-                    pt.save();
-                })
-            })
-    }
+    var saveEdited = function(e){
+        var out = e.layers.toGeoJSON();
+        $timeout(function(){
+            $scope.point.geom = out.features[0].geometry;
+            $scope.savePoint()
+        })
+        
+    };
     
     leafletData.getMap()
     .then(function(map){
@@ -51,9 +42,7 @@ function TerritoryEditPointCtrl($scope, $state, DataService,leafletData,  MapSer
 
     $scope.$on("$destroy", function(){
         $scope.map.off('draw:edited', saveEdited);
-        
-        
-    })
+    });
 
 
     

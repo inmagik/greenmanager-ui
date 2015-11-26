@@ -5,16 +5,6 @@ angular.module('app')
 .controller('TerritoryAddCtrl', TerritoryAddCtrl);
 
 
-function convertToFeature(o, geomProperty){
-    var out = {
-        id : o.id,
-        type : "Feature",
-        geometry : o[geomProperty],
-        properties : _.omit(o, ['id', geomProperty])
-    }
-    return out;
-}
-
 function TerritoryAddCtrl($scope, $state, DataService,leafletData,  MapService, $timeout, Restangular, territory){
     $scope.territory = territory;    
     $scope.point = {
@@ -26,7 +16,7 @@ function TerritoryAddCtrl($scope, $state, DataService,leafletData,  MapService, 
         .then(function(savedPoint){
             alert("point saved!")
             $timeout(function(){
-                var geojsonFeature = convertToFeature(savedPoint.plain(), 'geom');
+                var geojsonFeature = MapService.convertToFeature(savedPoint.plain(), 'geom');
                 $scope.layers.overlays.points.addData(geojsonFeature)
                 fg.removeLayer(newPoint);
                 $state.go("app.territory", {territoryId:territory.id}, {reload:true})
@@ -102,7 +92,25 @@ function TerritoryAddCtrl($scope, $state, DataService,leafletData,  MapService, 
         
     })
 
- 
+
+    
+    return
+    var drawCtrl;
+    var addDrawControl = function(){
+        drawCtrl = new L.Control.Draw({
+            draw : { polygon:true, circle:false },
+            edit : false
+        });
+        drawCtrl.addTo($scope.map)
+        var doCreated = function (e) {
+            $scope.territory.geom = e.layer.toGeoJSON().geometry;
+            $scope.map.addLayer(e.layer)
+            drawCtrl.removeFrom($scope.map);
+            $scope.map.off('draw:created', doCreated);
+            drawCtrl = null;
+        }
+        $scope.map.on('draw:created', doCreated);
+    };
 
 };
 

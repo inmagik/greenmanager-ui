@@ -69,6 +69,19 @@ function TerritoryCtrl($scope, $stateParams, DataService, leafletData, $timeout,
                         });
                     }
                 },
+            },
+
+            editing : {
+                name : "Editing",
+                type: 'geoJSONShape',
+                data : [],
+                visible: true,
+                layerOptions: {
+                    style: {
+                        
+                    }
+                    
+                },
             }
 
         }

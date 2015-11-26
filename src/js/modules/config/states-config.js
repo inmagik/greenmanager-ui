@@ -160,12 +160,21 @@ angular.module('app.statesconfig', ['ui.router'])
                 return DataService.pointvegetation.one($stateParams.pointId).get()
             }
         },
-        onEnter : function(MapService){
-            MapService.addEditControlForOverlay('points')
+        onEnter : function(MapService, point){
+            MapService.hideOverlay('points')
+            var feature = MapService.convertToFeature(point, "geom");
+            MapService.clearOverlay('editing', feature)
+            .then(function(){
+                MapService.addEditControlForOverlay('editing')    
+            })
+            
         },
 
         onExit : function(MapService){
-            MapService.removeEditControlForOverlay('points')
+            MapService.showOverlay('points')
+            MapService.removeEditControlForOverlay('editing')
+            MapService.commitEdits('editing', 'points')
+            //MapService.clearOverlay('editing')
         }
     })
 
